@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vértice Sport | Ropa deportiva</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,800&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0E1A3A;--blue:#2450F5;--chalk:#F5F7FB;--sun:#FFD21F;--mist:#DCE3F5;--slate:#5A6688;--red:#C62839;
+--display:"Barlow Condensed","Arial Narrow",Impact,sans-serif;--body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:16px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{font-family:var(--body);background:var(--chalk);color:var(--ink);line-height:1.5}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.btn{display:inline-block;font:600 1rem var(--body);padding:13px 24px;border:2px solid transparent;border-radius:4px;text-decoration:none;cursor:pointer}
+.btn-sun{background:var(--sun);color:var(--ink)}
+.btn-sun:hover{background:#fff}
+.btn-line{border-color:#fff;color:#fff;background:transparent}
+.btn-line:hover{background:#fff;color:var(--blue)}
+
+/* Hero */
+.hero{background:var(--blue);color:#fff;padding-bottom:64px}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+.brand{font:italic 800 1.7rem var(--display);letter-spacing:.02em;text-decoration:none}
+.nav a.link{margin-left:22px;text-decoration:none;font-weight:500}
+.nav a.link:hover{text-decoration:underline}
+.hero-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:48px;align-items:center;margin-top:28px}
+h1{font:italic 800 clamp(3.4rem,9vw,6.6rem)/.92 var(--display);letter-spacing:-.01em}
+.hero p.lead{max-width:44ch;margin:22px 0 30px;font-size:1.15rem;color:#E4EAFF}
+.hero .actions{display:flex;flex-wrap:wrap;gap:12px}
+.info{background:#fff;color:var(--ink);border-radius:6px;padding:28px}
+.info h2{font:italic 800 1.9rem var(--display);margin-bottom:14px}
+.info dl{display:grid;gap:14px}
+.info dt{font-weight:600;color:var(--slate);font-size:.9rem}
+.info dd{font-size:1.05rem}
+.info dd a{font-weight:600}
+
+/* Stock */
+#stock{padding:72px 0 80px}
+.stock-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:end;gap:18px;margin-bottom:28px}
+h2.title{font:italic 800 clamp(2.4rem,6vw,3.6rem)/1 var(--display)}
+.stock-head p{color:var(--slate);margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font:500 .95rem var(--body);padding:8px 16px;border:2px solid var(--ink);background:transparent;color:var(--ink);border-radius:99px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.item{display:flex;flex-direction:column;background:#fff;border-radius:6px;overflow:hidden}
+.swatch{height:150px;background:var(--c);display:flex;align-items:end;padding:14px;font:italic 800 2.6rem/1 var(--display);color:#fff}
+.swatch.dark{color:var(--ink)}
+.body{padding:16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.body h3{font:600 1.05rem var(--body)}
+.price{font:italic 800 1.7rem var(--display)}
+.meta{color:var(--slate);font-size:.92rem}
+.qty{font-weight:600;font-size:.92rem}
+.qty.low{color:var(--red)}
+.qty.out{color:var(--slate);text-decoration:line-through}
+.item .btn{margin-top:auto;text-align:center;padding:10px 16px;background:var(--ink);color:#fff}
+.item .btn:hover{background:var(--blue)}
+.item .btn[aria-disabled="true"]{background:var(--mist);color:var(--slate);pointer-events:none}
+
+/* Footer */
+footer{background:var(--ink);color:#C9D2EE;padding:26px 0;font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px}
+.adm-open{background:none;border:0;color:#C9D2EE;text-decoration:underline;cursor:pointer;font:inherit}
+
+/* Admin */
+dialog{border:0;border-radius:6px;padding:26px;width:min(360px,92vw)}
+dialog::backdrop{background:rgba(14,26,58,.6)}
+dialog h2{font:italic 800 1.8rem var(--display);margin-bottom:12px}
+dialog label{display:block;font-weight:600;margin-bottom:6px}
+dialog input{width:100%;padding:11px;border:2px solid var(--mist);border-radius:4px;font:inherit}
+dialog .row{display:flex;gap:10px;margin-top:16px}
+.err{color:var(--red);font-size:.92rem;margin-top:8px;min-height:1.2em}
+#admin{background:#fff;border-top:6px solid var(--sun);padding:48px 0 64px}
+#admin[hidden]{display:none}
+.tools{display:flex;flex-wrap:wrap;gap:10px;margin:18px 0}
+.tools select,.tools button{font:500 .95rem var(--body);padding:9px 14px;border:2px solid var(--ink);border-radius:4px;background:#fff;color:var(--ink);cursor:pointer}
+.tools button:hover{background:var(--ink);color:#fff}
+.stats{display:flex;flex-wrap:wrap;gap:28px;margin-bottom:8px}
+.stats b{display:block;font:italic 800 2.4rem/1 var(--display)}
+.stats span{color:var(--slate);font-size:.9rem}
+.scroll{overflow-x:auto;max-height:420px;overflow-y:auto;border:1px solid var(--mist)}
+table{width:100%;border-collapse:collapse;font-size:.93rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--mist);white-space:nowrap}
+th{position:sticky;top:0;background:var(--chalk)}
+td.d{white-space:normal}
+.note{color:var(--slate);font-size:.88rem;margin-top:12px;max-width:70ch}
+
+@media(max-width:820px){.hero-grid{grid-template-columns:1fr;gap:34px}.nav a.link{margin-left:14px}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <nav class="nav" aria-label="Principal">
+      <a class="brand" href="#">Vértice Sport</a>
+      <div><a class="link" href="#stock" data-log="nav_ver_ropa">Ver ropa</a><a class="link" href="#contacto">Contacto</a></div>
+    </nav>
+    <div class="hero-grid">
+      <div>
+        <h1>Ropa hecha para moverte</h1>
+        <p class="lead">Remeras, shorts, calzas y camperas para correr, entrenar y jugar. Mirá qué hay en stock y consultá por WhatsApp.</p>
+        <div class="actions">
+          <a class="btn btn-sun" href="#stock" id="verRopa">Ver ropa</a>
+          <a class="btn btn-line" href="#contacto">Cómo llegar</a>
+        </div>
+      </div>
+      <aside class="info" id="contacto" aria-labelledby="info-t">
+        <h2 id="info-t">Datos de la tienda</h2>
+        <dl>
+          <div><dt>Dónde estamos</dt><dd><a href="https://www.google.com/maps/search/?api=1&query=Calle+Ejemplo+1234+Buenos+Aires" target="_blank" rel="noopener" data-log="click_mapa">Calle Ejemplo 1234, Buenos Aires</a></dd></div>
+          <div><dt>Teléfono</dt><dd><a href="tel:+541155550123" data-log="click_telefono">+54 11 5555-0123</a></dd></div>
+          <div><dt>WhatsApp</dt><dd><a href="https://wa.me/541155550123" target="_blank" rel="noopener" data-log="click_whatsapp">+54 11 5555-0123</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:hola@verticesport.com.ar" data-log="click_email">hola@verticesport.com.ar</a></dd></div>
+          <div><dt>Horario</dt><dd>Lunes a sábado, de 10 a 19 h</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</header>
+
+<main>
+<section id="stock" aria-labelledby="stock-t">
+  <div class="wrap">
+    <div class="stock-head">
+      <div>
+        <h2 class="title" id="stock-t">Stock disponible</h2>
+        <p>Las unidades se actualizan en la tienda. Escribinos para reservar tu talle.</p>
+      </div>
+      <div class="chips" id="chips" role="group" aria-label="Filtrar por categoría"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<section id="admin" hidden aria-labelledby="adm-t">
+  <div class="wrap">
+    <h2 class="title" id="adm-t">Registro de actividad</h2>
+    <p class="note">Solo visible para admin. Muestra lo que pasó en esta página desde este navegador.</p>
+    <div class="stats" id="stats"></div>
+    <div class="tools">
+      <select id="fType" aria-label="Filtrar por tipo de evento"></select>
+      <button id="bCsv">Exportar CSV</button>
+      <button id="bClear">Vaciar registro</button>
+      <button id="bOut">Cerrar sesión admin</button>
+    </div>
+    <div class="scroll">
+      <table>
+        <thead><tr><th>Fecha y hora</th><th>Evento</th><th>Detalle</th><th>Sesión</th></tr></thead>
+        <tbody id="logBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Vértice Sport. Todos los derechos reservados.</span>
+    <button class="adm-open" id="admOpen">Acceso admin</button>
+  </div>
+</footer>
+
+<dialog id="dlg" aria-labelledby="dlg-t">
+  <form method="dialog" id="admForm">
+    <h2 id="dlg-t">Acceso admin</h2>
+    <label for="pw">Contraseña</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <p class="err" id="err" role="alert"></p>
+    <div class="row">
+      <button class="btn btn-sun" type="submit" value="ok">Ingresar</button>
+      <button class="btn" type="button" id="cancel" style="background:var(--mist)">Cancelar</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+/* ====== Configuración (cambiá esto) ====== */
+const ADMIN_PASS = "admin1234";      // Contraseña del panel admin
+const WA_NUMBER  = "541155550123";   // WhatsApp para consultas de productos
+
+/* ====== Productos ====== */
+const PRODUCTS = [
+  {name:"Remera dry-fit Sprint",cat:"Remeras",price:18900,sizes:"S a XL",stock:24,c:"#2450F5"},
+  {name:"Remera térmica manga larga",cat:"Remeras",price:24500,sizes:"S a XL",stock:4,c:"#0E1A3A"},
+  {name:"Short running Aire",cat:"Shorts",price:16500,sizes:"S a XL",stock:18,c:"#FFD21F",dark:1},
+  {name:"Short training 2 en 1",cat:"Shorts",price:21900,sizes:"M a XXL",stock:0,c:"#5A6688"},
+  {name:"Calza larga Compress",cat:"Calzas",price:27900,sizes:"XS a L",stock:11,c:"#0E1A3A"},
+  {name:"Campera rompeviento Ráfaga",cat:"Camperas",price:58900,sizes:"S a XL",stock:3,c:"#2450F5"},
+  {name:"Buzo con capucha Entreno",cat:"Buzos",price:42500,sizes:"S a XXL",stock:9,c:"#DCE3F5",dark:1},
+  {name:"Medias técnicas (pack x3)",cat:"Accesorios",price:9800,sizes:"Talle único",stock:40,c:"#FFD21F",dark:1}
+];
+
+/* ====== Log ====== */
+const KEY = "vs_log", MAX = 500;
+const LABELS = {
+  vista_pagina:"Visita a la página", click_ver_ropa:"Clic en “Ver ropa”", nav_ver_ropa:"Clic en “Ver ropa” (menú)",
+  stock_visto:"Llegó al stock", filtro:"Filtro de categoría", consulta:"Consulta de producto",
+  click_mapa:"Clic en ubicación", click_telefono:"Clic en teléfono", click_whatsapp:"Clic en WhatsApp", click_email:"Clic en email",
+  admin_ok:"Ingreso admin", admin_error:"Contraseña admin incorrecta", admin_salida:"Cierre de sesión admin",
+  log_exportado:"Registro exportado", log_vaciado:"Registro vaciado"
+};
+let sid = sessionStorage.getItem("vs_sid");
+if(!sid){ sid = Math.random().toString(36).slice(2,8); sessionStorage.setItem("vs_sid", sid); }
+let isAdmin = sessionStorage.getItem("vs_admin") === "1";
+
+function readLog(){ try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }catch(e){ return []; } }
+function log(type, detail){
+  const l = readLog();
+  l.push({ts:new Date().toISOString(), type, detail:detail||"", sid});
+  try{ localStorage.setItem(KEY, JSON.stringify(l.slice(-MAX))); }catch(e){}
+  if(isAdmin) renderLog();
+}
+const esc = s => String(s).replace(/[&<>"']/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+
+/* ====== Stock ====== */
+const money = n => n.toLocaleString("es-AR",{style:"currency",currency:"ARS",maximumFractionDigits:0});
+const cats = ["Todo", ...new Set(PRODUCTS.map(p => p.cat))];
+let current = "Todo";
+
+function renderChips(){
+  document.getElementById("chips").innerHTML = cats.map(c =>
+    `<button class="chip" aria-pressed="${c===current}" data-cat="${esc(c)}">${esc(c)}</button>`).join("");
+}
+function renderGrid(){
+  const list = PRODUCTS.filter(p => current==="Todo" || p.cat===current);
+  document.getElementById("grid").innerHTML = list.map(p => {
+    const out = p.stock===0, low = p.stock>0 && p.stock<=5;
+    const q = out ? "Sin stock" : low ? `Últimas ${p.stock} unidades` : `${p.stock} en stock`;
+    const msg = encodeURIComponent(`Hola, quiero consultar por: ${p.name}`);
+    return `<article class="item">
+      <div class="swatch${p.dark?" dark":""}" style="--c:${p.c}" aria-hidden="true">${esc(p.cat)}</div>
+      <div class="body">
+        <h3>${esc(p.name)}</h3>
+        <span class="price">${money(p.price)}</span>
+        <span class="meta">Talles: ${esc(p.sizes)}</span>
+        <span class="qty${out?" out":low?" low":""}">${q}</span>
+        <a class="btn" href="https://wa.me/${WA_NUMBER}?text=${msg}" target="_blank" rel="noopener"
+           data-consulta="${esc(p.name)}" ${out?'aria-disabled="true" tabindex="-1"':""}>${out?"No disponible":"Consultar"}</a>
+      </div></article>`;
+  }).join("");
+}
+document.getElementById("chips").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if(!b) return;
+  current = b.dataset.cat; renderChips(); renderGrid(); log("filtro", current);
+});
+document.getElementById("grid").addEventListener("click", e => {
+  const a = e.target.closest("[data-consulta]"); if(a) log("consulta", a.dataset.consulta);
+});
+
+/* ====== Clics generales ====== */
+document.getElementById("verRopa").addEventListener("click", () => log("click_ver_ropa"));
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-log]"); if(a) log(a.dataset.log);
+});
+let seen = false;
+new IntersectionObserver((en) => {
+  if(!seen && en[0].isIntersecting){ seen = true; log("stock_visto"); }
+}, {threshold:.25}).observe(document.getElementById("stock"));
+
+/* ====== Admin ====== */
+const dlg = document.getElementById("dlg"), pw = document.getElementById("pw"), err = document.getElementById("err");
+const panel = document.getElementById("admin"), fType = document.getElementById("fType");
+
+function showAdmin(on){
+  isAdmin = on; panel.hidden = !on;
+  if(on){ sessionStorage.setItem("vs_admin","1"); renderLog(); } else sessionStorage.removeItem("vs_admin");
+}
+document.getElementById("admOpen").addEventListener("click", () => {
+  if(isAdmin){ panel.scrollIntoView(); return; }
+  err.textContent = ""; pw.value = ""; dlg.showModal(); pw.focus();
+});
+document.getElementById("cancel").addEventListener("click", () => dlg.close());
+document.getElementById("admForm").addEventListener("submit", e => {
+  e.preventDefault();
+  if(pw.value === ADMIN_PASS){
+    dlg.close(); log("admin_ok"); showAdmin(true); panel.scrollIntoView();
+  } else {
+    err.textContent = "Contraseña incorrecta. Probá de nuevo."; pw.select(); log("admin_error");
+  }
+});
+document.getElementById("bOut").addEventListener("click", () => { log("admin_salida"); showAdmin(false); window.scrollTo(0,0); });
+document.getElementById("bClear").addEventListener("click", () => {
+  if(confirm("¿Vaciar todo el registro? Esta acción no se puede deshacer.")){
+    localStorage.removeItem(KEY); log("log_vaciado");
+  }
+});
+document.getElementById("bCsv").addEventListener("click", () => {
+  const rows = [["fecha","evento","detalle","sesion"], ...readLog().map(r => [r.ts, LABELS[r.type]||r.type, r.detail, r.sid])];
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(new Blob(["\ufeff"+csv], {type:"text/csv;charset=utf-8"}));
+  a.download = "registro-actividad.csv"; a.click(); URL.revokeObjectURL(a.href);
+  log("log_exportado");
+});
+fType.addEventListener("change", renderLog);
+
+function renderLog(){
+  const all = readLog();
+  const count = t => all.filter(r => r.type===t).length;
+  const sessions = new Set(all.map(r => r.sid)).size;
+  document.getElementById("stats").innerHTML =
+    [[all.length,"eventos"],[sessions,"sesiones"],[count("click_ver_ropa")+count("nav_ver_ropa"),"clics en Ver ropa"],[count("consulta"),"consultas"]]
+    .map(([n,l]) => `<div><b>${n}</b><span>${l}</span></div>`).join("");
+  const prev = fType.value || "all";
+  const types = [...new Set(all.map(r => r.type))];
+  fType.innerHTML = `<option value="all">Todos los eventos</option>` +
+    types.map(t => `<option value="${t}">${esc(LABELS[t]||t)}</option>`).join("");
+  fType.value = types.includes(prev) ? prev : "all";
+  const rows = all.filter(r => fType.value==="all" || r.type===fType.value).reverse();
+  document.getElementById("logBody").innerHTML = rows.length ? rows.map(r =>
+    `<tr><td>${new Date(r.ts).toLocaleString("es-AR")}</td><td>${esc(LABELS[r.type]||r.type)}</td><td class="d">${esc(r.detail)}</td><td>${esc(r.sid)}</td></tr>`).join("")
+    : `<tr><td colspan="4">Todavía no hay eventos registrados.</td></tr>`;
+}
+
+/* ====== Inicio ====== */
+renderChips(); renderGrid();
+log("vista_pagina");
+if(isAdmin) showAdmin(true);
+</script>
+</body>
+</html>

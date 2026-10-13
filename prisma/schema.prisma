@@ -1,0 +1,228 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Los permisos por rol viven en el código (Fase 4): SUPER_ADMIN todo; ADMIN productos/stock/imágenes/consultas/estadísticas; EDITOR productos/imágenes/contenido.
+enum Role {
+  SUPER_ADMIN
+  ADMIN
+  EDITOR
+}
+
+enum ProductStatus {
+  PUBLISHED
+  HIDDEN
+  DRAFT
+}
+
+model User {
+  id           Int                 @id @default(autoincrement())
+  email        String              @unique
+  name         String
+  passwordHash String
+  role         Role                @default(EDITOR)
+  active       Boolean             @default(true)
+  createdAt    DateTime            @default(now())
+  lastLoginAt  DateTime?
+  activity     ActivityLog[]
+  movements    InventoryMovement[]
+  backups      Backup[]
+  sessions     Session[]
+  resets       PasswordReset[]
+}
+
+model Category {
+  id              Int              @id @default(autoincrement())
+  name            String           @unique
+  slug            String           @unique
+  description     String?
+  imageUrl        String?
+  imageStorageKey String?
+  position        Int              @default(0)
+  visible         Boolean          @default(true)
+  products        Product[]
+  events          AnalyticsEvent[]
+  queries         ContactQuery[]
+}
+
+model Product {
+  id              Int                 @id @default(autoincrement())
+  name            String
+  slug            String              @unique
+  description     String?             @db.Text
+  categoryId      Int
+  category        Category            @relation(fields: [categoryId], references: [id])
+  price           Int
+  oldPrice        Int?
+  promoPrice      Int?
+  sku             String?             @unique
+  internalCode    String?
+  status          ProductStatus       @default(PUBLISHED)
+  featured        Boolean             @default(false)
+  onSale          Boolean             @default(false)
+  tags            String[]
+  swatchColor     String              @default("#2450F5")
+  swatchDark      Boolean             @default(false)
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  images          ProductImage[]
+  sizes           ProductSize[]
+  colors          ProductColor[]
+  variants        ProductVariant[]
+  relatedTo       Product[]           @relation("ProductRelated")
+  relatedFrom     Product[]           @relation("ProductRelated")
+  inventory       Inventory?
+  movements       InventoryMovement[]
+  events          AnalyticsEvent[]
+  queries         ContactQuery[]
+}
+
+model ProductImage {
+  id          Int     @id @default(autoincrement())
+  productId   Int
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  url         String
+  storageKey  String?
+  alt         String  @default("")
+  title       String  @default("")
+  position    Int     @default(0)
+  isPrimary   Boolean @default(false)
+  previousUrl String?
+}
+
+model ProductSize {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label     String
+  position  Int     @default(0)
+
+  @@unique([productId, label])
+}
+
+model ProductColor {
+  id        Int     @id @default(autoincrement())
+  productId Int
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  name      String
+  hex       String?
+}
+
+model ProductVariant {
+  id         Int      @id @default(autoincrement())
+  productId  Int
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  sizeLabel  String?
+  colorName  String?
+  sku        String?  @unique
+  quantity   Int      @default(0)
+  priceDelta Int      @default(0)
+
+  @@unique([productId, sizeLabel, colorName])
+}
+
+model Inventory {
+  productId Int      @id
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(0)
+  minStock  Int      @default(5)
+  updatedAt DateTime @updatedAt
+}
+
+model InventoryMovement {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  previous  Int
+  next      Int
+  delta     Int
+  note      String?
+  createdAt DateTime @default(now())
+}
+
+model SiteSetting {
+  key       String   @id
+  value     String   @db.Text
+  updatedAt DateTime @updatedAt
+}
+
+model AnalyticsEvent {
+  id         Int       @id @default(autoincrement())
+  type       String
+  detail     String    @default("")
+  sessionId  String    @default("")
+  device     String    @default("desktop")
+  productId  Int?
+  product    Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  createdAt  DateTime  @default(now())
+
+  @@index([type, createdAt])
+  @@index([createdAt])
+}
+
+model ContactQuery {
+  id          Int       @id @default(autoincrement())
+  productId   Int?
+  product     Product?  @relation(fields: [productId], references: [id], onDelete: SetNull)
+  productName String
+  categoryId  Int?
+  category    Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  device      String    @default("desktop")
+  createdAt   DateTime  @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model ActivityLog {
+  id        Int      @id @default(autoincrement())
+  userId    Int?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String
+  entity    String
+  entityId  String?
+  detail    String   @default("") @db.Text
+  ip        String?
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+}
+
+model Backup {
+  id          Int      @id @default(autoincrement())
+  filename    String
+  sizeBytes   Int      @default(0)
+  createdById Int?
+  createdBy   User?    @relation(fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt   DateTime @default(now())
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  tokenHash String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
+
+model PasswordReset {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+}

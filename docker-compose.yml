@@ -1,0 +1,12 @@
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: runa
+      POSTGRES_PASSWORD: runa_dev_pass
+      POSTGRES_DB: runa_sport
+    ports: ["5432:5432"]
+    volumes: ["runa_pg:/var/lib/postgresql/data"]
+volumes:
+  runa_pg:
