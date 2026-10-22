@@ -1,13 +1,19 @@
 import Link from 'next/link'
 
 export default function CategoryCard({ category }) {
-  const { name, slug, description, imageUrl, productCount = 0 } = category
+  const { name, slug, description, imageUrl, productCount = 0, firstProductImage } = category
 
   return (
     <Link href={`/categoria/${slug}`} className="category-card">
       <div className="category-card-bg">
         {imageUrl ? (
           <img src={imageUrl} alt={name} loading="lazy" />
+        ) : firstProductImage ? (
+          <img
+            src={firstProductImage}
+            alt={name} loading="lazy"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
         ) : (
           <div className="category-card-fallback">
             <span className="category-icon">⚡</span>
